@@ -118,7 +118,7 @@ load_to_snowflake = SQLExecuteQueryOperator(
         );
     """,
     autocommit=True,
-    queue="high_mem", #this is the queue for this task
+    queue="high-mem", #this is the queue for this task
     dag=dag
 )
 
