@@ -1,21 +1,27 @@
+# Use the official Astro Runtime image for Airflow 3.x
 FROM astrocrpublic.azurecr.io/runtime:3.0-6
 
-# Temporarily switch to root to install OS packages
+# Switch to root to install OS-level build tools
 USER root
 
-# Install system packages for building any remaining wheels (e.g. numpy)
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+# Install build dependencies needed for compiling wheels (e.g. numpy, pandas)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
       build-essential \
       python3-distutils \
- && rm -rf /var/lib/apt/lists/*
+      libffi-dev \
+      libssl-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Switch back to the astro user
+# Switch back to the non-root Astro user
 USER astro
 
-# (Optional) allow connection tests from the Airflow UI
+# Allow “Test Connection” in the Airflow UI
 ENV AIRFLOW__WEBSERVER__CONNECTIONS__ALLOW_CONNECTION_TEST=True
 
-# Copy in & install your extra Python deps 
-COPY requirements.txt .
-RUN pip install --no-cache-dir --root-user-action=ignore -r requirements.txt
+# Copy in your extra Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+
+# Install your Python dependencies
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --root-user-action=ignore -r /tmp/requirements.txt
