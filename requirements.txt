@@ -1,0 +1,14 @@
+# Astronomer Runtime includes Airflow and common providers by default.
+# Add only the extra providers & libraries you need here.
+
+# Snowflake hook/operator
+apache-airflow-providers-snowflake==6.4.0
+apache-airflow-providers-common-sql==1.27.2
+
+# HTTP sensor/operator
+apache-airflow-providers-http==4.8.0
+
+# Data processing
+numpy>=1.24.4
+pandas>=2.0.3
+requests>=2.31.0
