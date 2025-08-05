@@ -118,6 +118,7 @@ load_to_snowflake = SQLExecuteQueryOperator(
         );
     """,
     autocommit=True,
+    queue="high_mem",
     dag=dag
 )
 
