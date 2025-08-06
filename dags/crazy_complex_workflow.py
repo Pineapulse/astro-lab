@@ -67,7 +67,7 @@ def crazy_complex_workflow():
 
     convergence_point = EmptyOperator(
         task_id='convergence_point',
-        trigger_rule=TriggerRule.NONE_FAILED_OR_SKIPPED,
+        trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS,
     )
 
     # Data Processing Cluster
@@ -125,10 +125,10 @@ def crazy_complex_workflow():
     cross_4 = BashOperator(task_id='cross_4', bash_command='echo "Cross 4"')
 
     # Final converge
-    pre_final_1 = EmptyOperator(task_id='pre_final_1', trigger_rule=TriggerRule.NONE_FAILED_OR_SKIPPED)
-    pre_final_2 = EmptyOperator(task_id='pre_final_2', trigger_rule=TriggerRule.NONE_FAILED_OR_SKIPPED)
-    final_merge = EmptyOperator(task_id='final_merge', trigger_rule=TriggerRule.NONE_FAILED_OR_SKIPPED)
-    end = EmptyOperator(task_id='end', trigger_rule=TriggerRule.NONE_FAILED_OR_SKIPPED)
+    pre_final_1 = EmptyOperator(task_id='pre_final_1', trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS)
+    pre_final_2 = EmptyOperator(task_id='pre_final_2', trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS)
+    final_merge = EmptyOperator(task_id='final_merge', trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS)
+    end = EmptyOperator(task_id='end', trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS)
 
     # Wire it all up
     start >> [init_phase_1, init_phase_2]
